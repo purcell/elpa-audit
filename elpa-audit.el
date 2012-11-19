@@ -92,7 +92,7 @@
              (with-current-buffer (get-buffer-create (format "*package list - %s*" archive-name))
                (erase-buffer)
                (dolist (entry packages)
-                 (let* ((package-name (car entry))
+                 (let* ((package-name (symbol-name (car entry)))
                         (url (elpa-audit/package-url archive-name package-name)))
                    (if url
                        (insert-text-button
