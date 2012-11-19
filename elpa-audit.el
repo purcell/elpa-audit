@@ -26,28 +26,25 @@
 
 ;;; Code:
 
-(require 'package)
-
-
 (defun elpa-audit/clean-description (package-descr)
   "Trim cruft from PACKAGE-DESCR."
   (replace-regexp-in-string " \\(-\\*-\\|\\[source\\).*" "" package-descr))
 
-(defun elpa-audit/get-or-fetch-archive-contents (archive-name)
-  "Return subset of package-archive-contents relating to ARCHIVE-NAME."
-  (unless package-archive-contents
-    (package-read-all-archive-contents))
-  (remove-if-not
-   (lambda (entry)
-     (string= archive-name (elt (cdr entry) 4)))
-   package-archive-contents))
+(defun elpa-audit/read-elisp-datum (file-name)
+  "Read the first sexp in FILE-NAME."
+  (car (read-from-string
+        (with-temp-buffer
+          (insert-file-contents-literally file-name)
+          (buffer-substring-no-properties (point-min) (point-max))))))
 
 (defun elpa-audit/package-list (archive-name)
   "Return a sorted list of (name . description) for packages in ARCHIVE-NAME."
-  (let* ((packages (mapcar (lambda (entry) (cons (car entry)
+  (let* ((archive-contents (expand-file-name (concat "archives/" archive-name "/archive-contents")
+                                             package-user-dir))
+         (packages (mapcar (lambda (entry) (cons (car entry)
                                             (elpa-audit/clean-description
                                              (elt (cdr entry) 2))))
-                           (elpa-audit/get-or-fetch-archive-contents archive-name))))
+                        (rest (elpa-audit/read-elisp-datum archive-contents)))))
     (sort packages (lambda (p1 p2) (string< (car p1) (car p2))))))
 
 (defun elpa-audit/package-names (archive-name)
