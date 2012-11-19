@@ -89,8 +89,8 @@
   (interactive (list
                 (elpa-audit/read-archive-name "Package archive A: ")
                 (elpa-audit/read-archive-name "Package archive B: ")))
-  (ediff-buffers (elpa-audit/dump-package-list-to-buffer archive1)
-                 (elpa-audit/dump-package-list-to-buffer archive2)))
+  (ediff-buffers (elpa-audit-dump-package-list-to-buffer archive1)
+                 (elpa-audit-dump-package-list-to-buffer archive2)))
 
 
 (provide 'elpa-audit)
