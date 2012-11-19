@@ -68,6 +68,21 @@
                      nil t nil nil
                      (first archive-names))))
 
+(defun elpa-audit/browse-url-at-point (button)
+  "When BUTTON is clicked, browses the value of the button's 'url text property."
+  (let ((url (button-get button 'url)))
+    (when url
+      (browse-url url))))
+
+(defun elpa-audit/package-url (archive-name package)
+  "Return an informative URL for ARCHIVE-NAME's version of PACKAGE."
+  (let ((archive-url (aget package-archives archive-name)))
+    (cond
+     ((string= archive-url "http://melpa.milkbox.net/packages/")
+      (format "https://github.com/milkypostman/melpa/blob/master/recipes/%s" package))
+     ((string= archive-url "http://marmalade-repo.org/packages/")
+      (format "http://marmalade-repo.org/packages/%s" package)))))
+
 (defun elpa-audit-dump-package-list-to-buffer (archive-name)
   "Write a list of packages in ARCHIVE-NAME into a new buffer."
   (interactive (list (elpa-audit/read-archive-name)))
@@ -77,7 +92,18 @@
              (with-current-buffer (get-buffer-create (format "*package list - %s*" archive-name))
                (erase-buffer)
                (dolist (entry packages)
-                 (insert (format "%s - %s\n" (car entry) (cdr entry))))
+                 (let* ((package-name (car entry))
+                        (url (elpa-audit/package-url archive-name package-name)))
+                   (if url
+                       (insert-text-button
+                        (symbol-name package-name)
+                        'mouse-face 'highlight
+                        'follow-link t
+                        'action #'elpa-audit/browse-url-at-point
+                        'url url
+                        'help-echo "mouse-2: visit the upstream package page")
+                     (insert package-name))
+                   (insert (format " - %s\n" (cdr entry)))))
                (goto-char 0)
                (current-buffer))))))
     (when (called-interactively-p 'any)
