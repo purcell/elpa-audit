@@ -28,7 +28,7 @@
 
 (defun elpa-audit/clean-description (package-descr)
   "Trim cruft from PACKAGE-DESCR."
-  (replace-regexp-in-string " \\(-\\*-\\|\\[source\\).*" "" package-descr))
+  (replace-regexp-in-string " \\(-\\*-\\|\\[\\).*" "" package-descr))
 
 (defun elpa-audit/read-elisp-datum (file-name)
   "Read the first sexp in FILE-NAME."
