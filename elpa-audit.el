@@ -91,7 +91,7 @@
 
 (defun elpa-audit/package-url (package)
   "Return an informative URL for package with plist PACKAGE."
-  (let ((archive-url (aget package-archives (plist-get package :archive)))
+  (let ((archive-url (cdr (assoc (plist-get package :archive) package-archives)))
         (name (plist-get package :name)))
     (cond
      ((string= archive-url "http://melpa.milkbox.net/packages/")
