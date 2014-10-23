@@ -19,7 +19,7 @@ Usage
 See `elpa-audit.el` for available functions.
 
 [marmalade]: http://marmalade-repo.org
-[melpa]: http://melpa.milkbox.net
+[melpa]: http://melpa.org
 
 <hr>
 

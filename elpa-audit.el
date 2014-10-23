@@ -94,7 +94,7 @@
   (let ((archive-url (cdr (assoc (plist-get package :archive) package-archives)))
         (name (plist-get package :name)))
     (cond
-     ((string= archive-url "http://melpa.milkbox.net/packages/")
+     ((string= archive-url "http://melpa.org/packages/")
       (format "https://github.com/milkypostman/melpa/blob/master/recipes/%s" name))
      ((string= archive-url "http://marmalade-repo.org/packages/")
       (format "http://marmalade-repo.org/packages/%s" name))
