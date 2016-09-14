@@ -8,17 +8,15 @@ maintainers such as the author!
 Installation
 =============
 
-If you choose not to use one of the convenient packages in
-[Melpa][melpa] and [Marmalade][marmalade], you'll need to add the
-directory containing `elpa-audit.el` to your `load-path`, and then
-`(require 'elpa-audit)`.
+If you choose not to use one of the convenient packages
+in [MELPA][melpa], you'll need to add the directory containing
+`elpa-audit.el` to your `load-path`, and then `(require 'elpa-audit)`.
 
 Usage
 =====
 
 See `elpa-audit.el` for available functions.
 
-[marmalade]: http://marmalade-repo.org
 [melpa]: http://melpa.org
 
 <hr>
